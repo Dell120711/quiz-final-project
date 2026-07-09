@@ -1,0 +1,14 @@
+{% extends 'quiz/base.html' %}
+{% block title %}錯題複習 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+  <div class="card">
+    <h1 style="font-size: 22px; font-weight: 800; margin-bottom: 10px;">錯題複習</h1>
+    <p class="text-muted" style="margin-bottom: 20px;">
+      目前有 {{ wrong_count }} 題錯題。之後開始測驗時，系統會優先安排到期的錯題。
+    </p>
+    <a href="{% url 'quiz_setup' %}" class="btn btn-primary">開始測驗</a>
+  </div>
+</div>
+{% endblock %}

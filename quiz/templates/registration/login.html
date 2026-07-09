@@ -1,0 +1,33 @@
+{% extends 'quiz/base.html' %}
+{% block title %}登入 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+  <div style="margin-bottom: 24px;">
+    <h1 style="font-size: 22px; font-weight: 800;">登入</h1>
+    <p class="text-muted">登入後可保留作答紀錄，錯題會安排在之後複習。</p>
+  </div>
+
+  <div class="card">
+    {% if form.errors %}
+    <div class="alert alert-err">帳號或密碼不正確，請再試一次。</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.password.id_for_label }}">密碼</label>
+        {{ form.password }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">登入</button>
+      <a href="{% url 'register' %}" class="btn btn-outline" style="margin-left: 8px;">註冊新帳號</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'quiz/base.html' %}
+{% block title %}第 {{ index }} 題 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span>第 {{ index }} / {{ total }} 題</span>
+      <span>{{ question.chapter.name }}</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: {{ progress_pct }}%"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="margin-bottom: 16px;">
+      <span class="badge badge-{{ question.difficulty }}">{{ question.get_difficulty_display }}</span>
+    </div>
+
+    <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 24px; line-height: 1.55;">
+      {{ question.content }}
+    </h2>
+
+    <form method="post" action="{% url 'quiz_answer' %}">
+      {% csrf_token %}
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        {% for item in labelled_options %}
+        <button type="submit" name="option_id" value="{{ item.option.id }}" class="option-btn">
+          <strong>{{ item.label }}.</strong>
+          {{ item.option.display_content }}
+        </button>
+        {% endfor %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

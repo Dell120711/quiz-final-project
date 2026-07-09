@@ -1,0 +1,56 @@
+{% extends 'quiz/base.html' %}
+{% block title %}雜湊表測驗 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+  <div style="margin-bottom: 24px;">
+    <h1 style="font-size: 24px; font-weight: 800;">雜湊表測驗</h1>
+    <p class="text-muted">選擇題數與難度後開始作答。錯題會在之後優先安排複習。</p>
+  </div>
+
+  {% if error %}
+  <div class="alert alert-err">{{ error }}</div>
+  {% endif %}
+
+  <div class="card">
+    <form method="post" action="{% url 'quiz_start' %}">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label>測驗章節</label>
+        <div style="font-weight: 700;">{{ chapter_name }}</div>
+        <div class="text-muted">目前可用題目：{{ question_count }} 題</div>
+      </div>
+
+      <div class="form-group">
+        <label>題數</label>
+        <div class="radio-group">
+          {% for count in counts %}
+          <label>
+            <input type="radio" name="count" value="{{ count }}" {% if count == 10 %}checked{% endif %}>
+            <span>{{ count }} 題</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="difficulty">難度</label>
+        <select name="difficulty" id="difficulty">
+          <option value="">全部難度</option>
+          <option value="easy">簡單</option>
+          <option value="medium">中等</option>
+          <option value="hard">困難</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="submit" class="btn btn-primary">開始測驗</button>
+        {% if user.is_staff %}
+        <a href="/admin/" class="btn btn-outline">後台管理</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'quiz/base.html' %}
+{% block title %}測驗總結 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="card" style="text-align: center;">
+    <h1 style="font-size: 22px; font-weight: 800; margin-bottom: 18px;">測驗總結</h1>
+
+    <div style="margin: 24px 0;">
+      <div class="score-big">{{ score }} / {{ total }}</div>
+      <div class="score-label">正確率 {{ pct }}%</div>
+    </div>
+
+    <hr>
+
+    <div style="text-align: left; margin-bottom: 28px;">
+      <h2 style="font-size: 15px; font-weight: 800; margin-bottom: 10px;">作答明細</h2>
+      {% for item in detailed %}
+      <div class="summary-row">
+        <div style="font-weight: 700; color: {% if item.correct %}var(--ok){% else %}var(--err){% endif %};">
+          {% if item.correct %}答對{% else %}答錯{% endif %}
+        </div>
+        <div style="margin-top: 3px;">{{ item.question.content }}</div>
+        <div class="text-muted" style="margin-top: 4px;">
+          你的答案：{% if item.selected %}{{ item.selected.display_content }}{% else %}未作答{% endif %}
+        </div>
+        <div class="text-muted" style="margin-top: 2px;">
+          正確答案：{% if item.correct_option %}{{ item.correct_option.display_content }}{% else %}-{% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">沒有作答紀錄。</p>
+      {% endfor %}
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="{% url 'quiz_setup' %}" class="btn btn-primary" style="flex: 1;">再測一次</a>
+      <a href="{% url 'home' %}" class="btn btn-outline" style="flex: 1;">回首頁</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

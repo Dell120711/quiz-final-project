@@ -1,0 +1,48 @@
+{% extends 'quiz/base.html' %}
+{% block title %}測驗詳情 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div style="margin-bottom: 24px;">
+    <h1 style="font-size: 22px; font-weight: 800;">測驗詳情</h1>
+    <p class="text-muted">
+      {{ attempt.chapter.name }}，
+      {{ attempt.score }} / {{ attempt.question_count }}，
+      正確率 {{ attempt.accuracy }}%
+    </p>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>題目</th>
+          <th>你的答案</th>
+          <th>正確答案</th>
+          <th>結果</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for answer in attempt.answers.all %}
+        <tr>
+          <td>{{ answer.question.content }}</td>
+          <td>{% if answer.selected_option %}{{ answer.selected_option.display_content }}{% else %}未作答{% endif %}</td>
+          <td>{% if answer.correct_option %}{{ answer.correct_option.display_content }}{% else %}-{% endif %}</td>
+          <td style="font-weight: 700; color: {% if answer.is_correct %}var(--ok){% else %}var(--err){% endif %};">
+            {% if answer.is_correct %}答對{% else %}答錯{% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-muted">這次測驗沒有作答明細。</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 16px;">
+    <a href="{% url 'history' %}" class="btn btn-outline">返回作答紀錄</a>
+  </div>
+</div>
+{% endblock %}

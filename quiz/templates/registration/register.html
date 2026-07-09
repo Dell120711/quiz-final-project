@@ -1,0 +1,51 @@
+{% extends 'quiz/base.html' %}
+{% block title %}註冊 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+  <div style="margin-bottom: 24px;">
+    <h1 style="font-size: 22px; font-weight: 800;">註冊</h1>
+    <p class="text-muted">建立學生帳號後，可以登入並累積錯題複習紀錄。</p>
+  </div>
+
+  <div class="card">
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">用戶名稱</label>
+        {{ form.username }}
+        {% if form.username.help_text %}
+        <span class="helptext">{{ form.username.help_text }}</span>
+        {% endif %}
+        {% for error in form.username.errors %}
+        <div class="field-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">設置密碼</label>
+        {{ form.password1 }}
+        {% for error in form.password1.errors %}
+        <div class="field-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.password2.id_for_label }}">確認密碼</label>
+        {{ form.password2 }}
+        {% for error in form.password2.errors %}
+        <div class="field-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      {% for error in form.non_field_errors %}
+      <div class="alert alert-err">{{ error }}</div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">註冊</button>
+      <a href="{% url 'login' %}" class="btn btn-outline" style="margin-left: 8px;">已有帳號，登入</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

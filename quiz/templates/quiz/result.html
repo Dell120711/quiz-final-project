@@ -1,0 +1,38 @@
+{% extends 'quiz/base.html' %}
+{% block title %}作答結果 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container-sm">
+  <div class="card">
+    {% if is_correct %}
+      <div class="result-correct">
+        <div class="result-label ok">答對了</div>
+        <p class="text-muted" style="margin-top: 6px;">你的答案：{{ selected.display_content }}</p>
+      </div>
+    {% else %}
+      <div class="result-wrong">
+        <div class="result-label err">答錯了</div>
+        <p class="text-muted" style="margin-top: 6px;">
+          你的答案：{% if selected %}{{ selected.display_content }}{% else %}未選擇{% endif %}
+        </p>
+      </div>
+    {% endif %}
+
+    <div style="background: var(--ok-dim); border: 1px solid #bbf7d0; border-radius: var(--radius); padding: 14px; margin-bottom: 16px;">
+      <div style="color: var(--ok); font-weight: 700; font-size: 13px;">正確答案</div>
+      <div style="font-size: 15px; font-weight: 700;">{{ correct_opt.display_content }}</div>
+    </div>
+
+    {% if question.explanation %}
+    <div class="explanation">
+      <strong>解析</strong>
+      <div style="margin-top: 4px;">{{ question.explanation }}</div>
+    </div>
+    {% endif %}
+
+    <a href="{% url 'quiz_question' %}" class="btn btn-primary" style="display: block; width: 100%;">
+      {% if is_last %}查看總結{% else %}下一題{% endif %}
+    </a>
+  </div>
+</div>
+{% endblock %}

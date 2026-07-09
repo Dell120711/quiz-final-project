@@ -1,0 +1,46 @@
+{% extends 'quiz/base.html' %}
+{% block title %}作答紀錄 | 資料結構測驗網站{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div style="margin-bottom: 24px;">
+    <h1 style="font-size: 22px; font-weight: 800;">作答紀錄</h1>
+    <p class="text-muted">這裡顯示每一次測驗的成績。錯題複習狀態會另外用來安排之後的題目。</p>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>測驗時間</th>
+          <th>章節</th>
+          <th>分數</th>
+          <th>正確率</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for attempt in attempts %}
+        <tr>
+          <td>
+            {% if attempt.completed_at %}
+              {{ attempt.completed_at|date:"Y-m-d H:i" }}
+            {% else %}
+              {{ attempt.started_at|date:"Y-m-d H:i" }}
+            {% endif %}
+          </td>
+          <td>{{ attempt.chapter.name }}</td>
+          <td>{{ attempt.score }} / {{ attempt.question_count }}</td>
+          <td>{{ attempt.accuracy }}%</td>
+          <td><a href="{% url 'history_detail' attempt.id %}">查看詳情</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-muted">尚無測驗紀錄。</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
